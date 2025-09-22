@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VoleyKids+</title>
+<link rel="icon" href="logo1 - copia.jpg" type="image/jpeg">
+<link rel="shortcut icon" href="logo1 - copia.jpg" type="image/jpeg">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <!-- Elimina el bloque logo-header anterior -->
+    <nav class="navbar">
+        <a href="#info" class="nav-logo" aria-label="Inicio">
+            <img src="logo1 - copia.jpg" alt="Logo VoleyKids+">
+        </a>
+        <button id="nav-toggle" class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul>
+            <li class="nav-mobile-points"><span class="nav-points-chip in-menu">Pts: <span class="nav-points-val">0</span></span></li>
+            <li><a href="#info">¿Qué es?</a></li>
+            <li><a href="#avatar-section">Avatar</a></li>
+            <li><a href="#avatar-shop">Tienda Avatar</a></li>
+            <li><a href="#points-rewards">Puntos</a></li>
+            <li><a href="#mini-games">Mini juegos</a></li>
+            <li><a href="#calendar">Calendario</a></li>
+            <li><a href="#attendance">Asistencia</a></li>
+        </ul>
+        <div class="nav-points-chip">Pts: <span class="nav-points-val">0</span></div>
+    </nav>
+    <div id="notifications-container" class="notif-container"></div>
+
+    <section id="info" class="pastel-blue border-ball info-section">
+        <div class="info-hero">
+            <div class="hero-left" role="img" aria-label="Entrenamiento de voleibol"></div>
+            <div class="hero-right">
+                <h2>¿Qué es VoleyKids+?</h2>
+                <p>VoleyKids+ hace que aprender voleibol sea divertido y motivador. Ganas puntos, canjeas recompensas, juegas mini juegos y recibes recordatorios y notificaciones.</p>
+                <div class="info-cta">
+                    <a class="btn-cta" href="#mini-games">Jugar ahora</a>
+                    <a class="btn-secondary" href="#points-rewards">Ver recompensas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avatar -->
+    <section id="avatar-section" class="pastel-purple border-ball">
+        <h2>Tu Avatar</h2>
+        <div class="avatar-choose">
+            <button id="choose-boy" class="avatar-choose-btn">Niño</button>
+            <button id="choose-girl" class="avatar-choose-btn">Niña</button>
+        </div>
+        <div id="avatar-display"></div>
+        <div class="avatar-customize">
+            <label>Ropa:
+                <select id="clothes-select"></select>
+            </label>
+            <label>Accesorio:
+                <select id="accessory-select"></select>
+            </label>
+            <span id="selected-price" class="price-chip"></span>
+            <span id="preview-badge" class="preview-badge" hidden>Vista previa</span>
+        </div>
+        <div class="avatar-accessories-list">
+            <span>Accesorios comprados:</span>
+            <ul id="owned-accessories"></ul>
+        </div>
+    </section>
+
+    <!-- Tienda Avatar -->
+    <section id="avatar-shop" class="pastel-yellow border-ball">
+        <h2>Tienda de Avatar</h2>
+        <div id="shop-products" class="shop-products"></div>
+    </section>
+
+    <main>
+        <section id="points-rewards" class="pastel-yellow border-ball">
+            <h2>Puntos y Recompensas</h2>
+            <div class="points-header">Puntos disponibles: <span id="total-points">0</span></div>
+            <!-- Misiones enlazadas a puntos: 3 misiones -->
+            <div class="missions-box">
+                <div class="mission-title">Misiones</div>
+                <div class="mission-item" id="mission-m1">
+                    <div class="mission-sub">Cada 50 puntos del minijuego: ¡Premio sorpresa!</div>
+                    <div class="mission-bar"><span id="mission-bar-m1" style="width:0%"></span></div>
+                    <div class="mission-status">Progreso: <span id="mission-progress-m1">0/50</span> · Premios: <span id="mission-count-m1">0</span></div>
+                    <ul id="mission-prizes-m1" class="mission-prizes"></ul>
+                </div>
+                <div class="mission-item" id="mission-m2">
+                    <div class="mission-sub">Cada 150 puntos acumulados: ¡Premio especial!</div>
+                    <div class="mission-bar"><span id="mission-bar-m2" style="width:0%"></span></div>
+                    <div class="mission-status">Progreso: <span id="mission-progress-m2">0/150</span> · Premios: <span id="mission-count-m2">0</span></div>
+                    <ul id="mission-prizes-m2" class="mission-prizes"></ul>
+                </div>
+                <div class="mission-item" id="mission-m3">
+                    <div class="mission-sub">Cada 300 puntos acumulados: ¡Súper premio!</div>
+                    <div class="mission-bar"><span id="mission-bar-m3" style="width:0%"></span></div>
+                    <div class="mission-status">Progreso: <span id="mission-progress-m3">0/300</span> · Premios: <span id="mission-count-m3">0</span></div>
+                    <ul id="mission-prizes-m3" class="mission-prizes"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="mini-games" class="pastel-blue border-ball">
+            <h2>Mini juego de la Pelotita</h2>
+            <div style="max-width:420px;margin:0 auto;">
+                <canvas id="insta-ball-canvas"></canvas>
+                <div class="mini-ui">
+                    <button id="start-insta-ball">Iniciar juego</button>
+                    <span id="insta-ball-score" class="score-label">Puntaje: 0</span>
+                </div>
+                <div id="insta-ball-best" class="best-label"></div>
+            </div>
+        </section>
+
+        <section id="calendar" class="pastel-green border-ball">
+            <h2>Calendario Interactivo</h2>
+            <div id="calendar-widget" class="cal-wrapper"></div>
+            <div id="reminders-list"></div>
+            <div class="calendar-reminder-form">
+                <input type="date" id="reminder-date">
+                <input type="text" id="reminder-text" placeholder="Recordatorio">
+                <button id="add-reminder">Agregar</button>
+            </div>
+        </section>
+
+        <section id="attendance" class="pastel-peach border-ball">
+            <h2>Registro Digital de Asistencia</h2>
+            <button id="generate-qr">Generar QR</button>
+            <div id="qr-code-display"></div>
+        </section>
+
+        
+    </main>
+
+    <footer>
+    <p>&copy; 2025 VoleyKids+. Todos los derechos reservados.</p>
+    </footer>
+
+<script>
+function showNotif(text,type='info'){
+  const wrap=document.getElementById('notifications-container'); if(!wrap) return;
+  const el=document.createElement('div'); el.className='toast '+type; el.textContent=text;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(-6px)';setTimeout(()=>el.remove(),300);},3500);
+}
+
+// Ajustar variable de altura de navbar para móviles
+(()=>{
+    const nav=document.querySelector('.navbar');
+    const setH=()=>{ if(nav){ document.documentElement.style.setProperty('--navH', nav.offsetHeight+'px'); } };
+    setH();
+    addEventListener('resize',()=> setTimeout(setH, 50));
+})();
+
+// Navbar: ocultar al hacer scroll (si el menú no está abierto)
+(()=>{let last=scrollY;const nav=document.querySelector('.navbar');
+addEventListener('scroll',()=>{const y=scrollY; if(nav.classList.contains('open')) return;
+if(y>last+8) nav.classList.add('hide-navbar'); else if(y<last-8||y<=0) nav.classList.remove('hide-navbar'); last=y;});})();
+
+// Navbar: menú hamburguesa
+(()=>{
+    const nav=document.querySelector('.navbar');
+    const btn=document.getElementById('nav-toggle');
+    const links=[...nav.querySelectorAll('ul a')];
+    const recalc=()=>{ document.documentElement.style.setProperty('--navH', nav.offsetHeight+'px'); };
+    if(!btn) return;
+    btn.addEventListener('click',()=>{
+        const isOpen=nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(isOpen));
+        recalc();
+    });
+    links.forEach(a=>a.addEventListener('click',()=>{ if(nav.classList.contains('open')){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); recalc(); } }));
+})();
+
+// Puntos (modificado para actualizar nav y notificación)
+(()=>{ // Puntos (modificado para actualizar nav y notificación)
+ let total=+localStorage.getItem('voleikit_total_points')||0;
+ const span=document.getElementById('total-points');
+ const navSpans=[...document.querySelectorAll('.nav-points-val')];
+ const refresh=()=>{span.textContent=total; navSpans.forEach(s=>s.textContent=total);};
+ const updateBtns=()=>document.querySelectorAll('.claim-gift').forEach(b=>b.disabled= total< +b.dataset.points);
+ refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total);
+ document.querySelectorAll('.claim-gift').forEach(b=>b.onclick=()=>{
+    const cost=+b.dataset.points; if(total>=cost){total-=cost;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total); showNotif('Reclamado: '+b.dataset.gift,'good');}
+ });
+ window._addPoint=()=>{total++;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total); showNotif('+1 punto','good');};
+ window._spendPoints=p=>{if(total>=p){total-=p;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total); return true;}return false;};
+})();
+
+// Misiones enlazadas a puntos: 3 misiones independientes (50/150/300)
+(()=>{
+    const defs=[
+        {key:'m1', step:50,  title:'Premio sorpresa'},
+        {key:'m2', step:150, title:'Premio especial'},
+        {key:'m3', step:300, title:'Súper premio'}
+    ];
+
+    const els=defs.map(d=>({
+        d,
+        bar: document.getElementById(`mission-bar-${d.key}`),
+        prog: document.getElementById(`mission-progress-${d.key}`),
+        count: document.getElementById(`mission-count-${d.key}`),
+        list: document.getElementById(`mission-prizes-${d.key}`)
+    }));
+    if(els.some(e=>!e.bar||!e.prog||!e.count||!e.list)) return;
+
+    // Cargar estado o inicializar
+    let state={};
+    function load(total){
+        defs.forEach(def=>{
+            const nextAtKey=`voleikit_mission_${def.key}_next_at`;
+            const countKey =`voleikit_mission_${def.key}_count`;
+            let nextAt= +localStorage.getItem(nextAtKey);
+            let count = +localStorage.getItem(countKey);
+            if(!nextAt) nextAt = def.step; // por defecto el primer hito
+            if(!count) count=0;
+            state[def.key]={nextAt,count,nextAtKey,countKey};
+        });
+    }
+    function save(def){
+        const s=state[def.key];
+        localStorage.setItem(s.nextAtKey, String(s.nextAt));
+        localStorage.setItem(s.countKey, String(s.count));
+    }
+    function render(total){
+        els.forEach(({d,bar,prog,count})=>{
+            const cur = total % d.step;
+            const pct = Math.min(100, Math.floor((cur/d.step)*100));
+            bar.style.width = pct+'%';
+            prog.textContent = `${cur}/${d.step}`;
+            count.textContent = String(state[d.key].count);
+        });
+    }
+    function grantIfNeeded(total){
+        let any=false;
+        els.forEach(({d,list})=>{
+            const s=state[d.key];
+            while(total >= s.nextAt){
+                s.count++;
+                const reached = s.nextAt;
+                s.nextAt += d.step;
+                const li=document.createElement('li');
+                const prizeName = `${d.title} #${s.count}`;
+                li.textContent = `${prizeName} (al llegar a ${reached} pts)`;
+                list.prepend(li);
+                showNotif(`¡Misión completada! ${prizeName}`,'good');
+                any=true;
+                save(d);
+            }
+        });
+        return any;
+    }
+
+    window._onPointsChange=(total)=>{ grantIfNeeded(total); render(total); };
+    const current= +localStorage.getItem('voleikit_total_points') || 0;
+    load(current); grantIfNeeded(current); render(current);
+})();
+
+
+// Avatar + Accesorios
+(()=>{
+const accessoriesStore = [
+ {name:"Gorra", price:20, svg:`<ellipse cx="60" cy="18" rx="22" ry="8" fill="#1976d2" stroke="#333" stroke-width="2"/>`},
+ {name:"Lentes", price:40, svg:`<ellipse cx="45" cy="48" rx="9" ry="7" fill="none" stroke="#333" stroke-width="3"/><ellipse cx="75" cy="48" rx="9" ry="7" fill="none" stroke="#333" stroke-width="3"/><rect x="54" y="45" width="12" height="6" fill="#333"/>`},
+ {name:"Pelota", price:30, svg:`<circle cx="100" cy="170" r="10" fill="#fff" stroke="#ffb6b9" stroke-width="3"/><line x1="90" y1="170" x2="110" y2="170" stroke="#ffb6b9" stroke-width="2"/>`},
+ {name:"Moño", price:25, svg:`<ellipse cx="60" cy="10" rx="8" ry="5" fill="#ff7eb9"/><ellipse cx="50" cy="10" rx="5" ry="8" fill="#ffb6b9"/><ellipse cx="70" cy="10" rx="5" ry="8" fill="#ffb6b9"/>`},
+ {name:"Silla de ruedas", price:200, svg:`<g transform="translate(8,100) rotate(-8) scale(1.15)">
+     <!-- Rueda trasera (más grande) -->
+     <circle cx="8" cy="24" r="16" fill="none" stroke="#333" stroke-width="4"/>
+     <circle cx="8" cy="24" r="8" fill="#ffb6b9"/>
+     <!-- Rueda delantera -->
+     <circle cx="30" cy="30" r="8" fill="none" stroke="#333" stroke-width="3"/>
+     <!-- Marco principal -->
+     <line x1="8" y1="24" x2="24" y2="10" stroke="#333" stroke-width="3"/>
+     <!-- Respaldo / asiento -->
+     <rect x="-6" y="-16" width="22" height="24" rx="6" fill="#90caf9" stroke="#333" stroke-width="3"/>
+     <line x1="6" y1="8" x2="6" y2="24" stroke="#333" stroke-width="3"/>
+     <!-- Horquilla delantera -->
+     <line x1="24" y1="10" x2="30" y2="22" stroke="#333" stroke-width="3"/>
+ </g>`},
+ {name:"Muletas", price:120, svg:`
+ <g stroke="#8d6e63" stroke-width="3" stroke-linecap="round" fill="none">
+     <!-- Par de muletas grandes más separadas del personaje -->
+     <g transform="translate(106,86) rotate(20) scale(1.4)">
+         <line x1="-12" y1="-30" x2="12" y2="-30"/>
+         <line x1="-12" y1="-30" x2="-18" y2="-14"/>
+         <line x1="12" y1="-30" x2="18" y2="-14"/>
+         <line x1="0" y1="-30" x2="0" y2="44"/>
+         <line x1="-3.5" y1="44" x2="3.5" y2="44"/>
+     </g>
+     <g transform="translate(92,96) rotate(10) scale(1.35)">
+         <line x1="-12" y1="-30" x2="12" y2="-30"/>
+         <line x1="-12" y1="-30" x2="-18" y2="-14"/>
+         <line x1="12" y1="-30" x2="18" y2="-14"/>
+         <line x1="0" y1="-30" x2="0" y2="44"/>
+         <line x1="-3.5" y1="44" x2="3.5" y2="44"/>
+     </g>
+ </g>`}
+];
+const clothesOptions=[
+ {name:"Celeste",value:"#90caf9"},
+ {name:"Rosa",value:"#f8bbd0"},
+ {name:"Verde",value:"#a5d6a7"},
+ {name:"Amarillo",value:"#fff59d"}
+];
+// Persistencia de ropas compradas (por defecto solo la primera es gratis)
+let clothesOwned = JSON.parse(localStorage.getItem('avatarClothesOwned')||'null');
+if(!Array.isArray(clothesOwned)){
+    clothesOwned = [0];
+    localStorage.setItem('avatarClothesOwned', JSON.stringify(clothesOwned));
+}
+const boySVG=(c,a)=>`<svg width="120" height="180" viewBox="0 0 120 180"><circle cx="60" cy="50" r="38" fill="#ffe0b2" stroke="#333" stroke-width="2"/><ellipse cx="60" cy="120" rx="32" ry="44" fill="${c}" stroke="#333" stroke-width="2"/><rect x="40" y="140" width="12" height="32" rx="6" fill="#90caf9" stroke="#333" stroke-width="2"/><rect x="68" y="140" width="12" height="32" rx="6" fill="#90caf9" stroke="#333" stroke-width="2"/><ellipse cx="45" cy="48" rx="5" ry="7" fill="#222"/><ellipse cx="75" cy="48" rx="5" ry="7" fill="#222"/><ellipse cx="60" cy="68" rx="10" ry="5" fill="#e57373"/><rect x="18" y="90" width="12" height="38" rx="6" fill="#ffe0b2" stroke="#333" stroke-width="2" transform="rotate(-18 24 109)"/><rect x="90" y="90" width="12" height="38" rx="6" fill="#ffe0b2" stroke="#333" stroke-width="2" transform="rotate(18 96 109)"/>${a}</svg>`;
+const girlSVG=(c,a)=>`<svg width="120" height="180" viewBox="0 0 120 180"><circle cx="60" cy="50" r="38" fill="#ffe0b2" stroke="#333" stroke-width="2"/><ellipse cx="60" cy="120" rx="32" ry="44" fill="${c}" stroke="#333" stroke-width="2"/><ellipse cx="60" cy="150" rx="32" ry="18" fill="#f06292" stroke="#333" stroke-width="2"/><rect x="40" y="140" width="12" height="32" rx="6" fill="#f8bbd0" stroke="#333" stroke-width="2"/><rect x="68" y="140" width="12" height="32" rx="6" fill="#f8bbd0" stroke="#333" stroke-width="2"/><ellipse cx="45" cy="48" rx="5" ry="7" fill="#222"/><ellipse cx="75" cy="48" rx="5" ry="7" fill="#222"/><ellipse cx="60" cy="68" rx="10" ry="5" fill="#e57373"/><rect x="18" y="90" width="12" height="38" rx="6" fill="#ffe0b2" stroke="#333" stroke-width="2" transform="rotate(-18 24 109)"/><rect x="90" y="90" width="12" height="38" rx="6" fill="#ffe0b2" stroke="#333" stroke-width="2" transform="rotate(18 96 109)"/><ellipse cx="60" cy="22" rx="22" ry="12" fill="#6d4c41"/>${a}</svg>`;
+let avatarType=localStorage.getItem('avatarType')||'boy';
+let clothesIdx=+localStorage.getItem('avatarClothes')||0;
+if(!clothesOwned.includes(clothesIdx)){
+    clothesIdx = 0;
+    localStorage.setItem('avatarClothes', clothesIdx);
+}
+let owned=JSON.parse(localStorage.getItem('avatarAccessories')||'[]');
+let accessoryIdx=0;
+
+const clothesSel=document.getElementById('clothes-select');
+function buildClothesOptions(){
+    clothesSel.innerHTML='';
+    clothesOptions.forEach((o,i)=>{
+        const opt=document.createElement('option');
+        opt.value=i;
+        opt.textContent = o.name + (clothesOwned.includes(i)?'':' 🔒');
+        opt.disabled = !clothesOwned.includes(i);
+        clothesSel.appendChild(opt);
+    });
+}
+buildClothesOptions();
+clothesSel.value=clothesIdx;
+
+const accSel=document.getElementById('accessory-select');
+function buildAccessoryOptions(){
+    const current=accessoryIdx;
+    accSel.innerHTML='';
+    accessoriesStore.forEach((o,i)=>{
+        const opt=document.createElement('option');
+        const ownedMark = owned.includes(i) ? '✓' : '🔒';
+        opt.value=i; opt.textContent = `${o.name} ${owned.includes(i)?'':ownedMark}`;
+        accSel.appendChild(opt);
+    });
+    accSel.value = String(current);
+}
+buildAccessoryOptions();
+accSel.value=accessoryIdx;
+
+const priceChip=document.getElementById('selected-price');
+const previewBadge=document.getElementById('preview-badge');
+function updatePrice(){
+ const isOwned=owned.includes(accessoryIdx);
+ priceChip.textContent= isOwned ? 'Comprado' : `Precio: ${accessoriesStore[accessoryIdx].price} pts`;
+ if(previewBadge) previewBadge.hidden = isOwned;
+}
+function renderOwnedList(){
+ const ul=document.getElementById('owned-accessories');ul.innerHTML='';
+ owned.forEach(i=>{
+   const li=document.createElement('li');li.textContent=accessoriesStore[i].name;ul.appendChild(li);
+ });
+}
+function renderAvatar(){
+ const clothes=clothesOptions[clothesIdx].value;
+ // Mostrar vista previa tenue cuando no está comprado
+ const accContent = accessoriesStore[accessoryIdx]?.svg || "";
+ const accSVG = owned.includes(accessoryIdx) ? accContent : (accContent? `<g opacity="0.35">${accContent}</g>` : "");
+ document.getElementById('avatar-display').innerHTML =
+   (avatarType==='boy'? boySVG(clothes,accSVG): girlSVG(clothes,accSVG));
+ updatePrice();
+ renderOwnedList();
+}
+document.getElementById('choose-boy').onclick=()=>{avatarType='boy';localStorage.setItem('avatarType',avatarType);renderAvatar();};
+document.getElementById('choose-girl').onclick=()=>{avatarType='girl';localStorage.setItem('avatarType',avatarType);renderAvatar();};
+clothesSel.onchange=e=>{
+    const idx=+e.target.value;
+    if(!clothesOwned.includes(idx)){
+        alert('Esta ropa no está comprada. Adquiérela en la tienda.');
+        clothesSel.value = clothesIdx;
+        return;
+    }
+    clothesIdx=idx;localStorage.setItem('avatarClothes',clothesIdx);renderAvatar();
+};
+accSel.onchange=e=>{accessoryIdx=+e.target.value;renderAvatar();};
+
+renderAvatar();
+addEventListener('storage',()=>{
+    owned=JSON.parse(localStorage.getItem('avatarAccessories')||'[]');
+    const co = JSON.parse(localStorage.getItem('avatarClothesOwned')||'[]');
+    if(Array.isArray(co)) clothesOwned = co;
+    // Si la ropa seleccionada ya no está disponible, volver a la por defecto
+    if(!clothesOwned.includes(clothesIdx)){
+        clothesIdx=0; localStorage.setItem('avatarClothes', clothesIdx);
+    }
+    buildAccessoryOptions();
+    buildClothesOptions();
+    renderAvatar();
+});
+})();
+
+// Tienda
+(()=> {
+const store = document.getElementById('shop-products');
+const accessoriesStore = [
+ {name:"Gorra", price:20, img:"gorro.png", index:0},
+ {name:"Lentes", price:40, img:"lentes.jpg", index:1},
+ {name:"Pelota", price:30, img:"pelota.jpg", index:2},
+ {name:"Moño", price:25, img:"moño.jpg", index:3},
+ {name:"Silla de ruedas", price:200, img:"silladeruedas.jpg", index:4},
+ {name:"Muletas", price:120, img:"muleta.webp", index:5},
+];
+// Ropas a la venta (índices que corresponden a clothesOptions)
+const clothesProducts = [
+    {name:"Ropa: Rosa", price:30, img:"rosa.jpg", clothesIndex:1},
+    {name:"Ropa: Verde", price:30, img:"verde.avif", clothesIndex:2},
+    {name:"Ropa: Amarillo", price:30, img:"amarillo.jpg", clothesIndex:3},
+];
+function ownedList(){return JSON.parse(localStorage.getItem('avatarAccessories')||'[]');}
+function clothesOwnedList(){
+    const co = JSON.parse(localStorage.getItem('avatarClothesOwned')||'[]');
+    return Array.isArray(co)? co : [0];
+}
+function renderShop(){
+ const owned=ownedList();
+ const cOwned=clothesOwnedList();
+ store.innerHTML="";
+ // Combina accesorios y ropas
+ const products = [
+     ...accessoriesStore.map(p=>({kind:'acc', ...p})),
+     ...clothesProducts.map(p=>({kind:'clothes', ...p}))
+ ];
+
+ products.forEach(p=>{
+     const card=document.createElement('div');
+     card.className="shop-product";
+     const isOwned = p.kind==='acc' ? owned.includes(p.index) : cOwned.includes(p.clothesIndex);
+     card.innerHTML=`
+         <img src="${p.img}" alt="${p.name}">
+         <div class="shop-prod-name">${p.name}</div>
+         <div class="shop-prod-price">${p.price} pts</div>
+         <button class="shop-buy-btn" data-kind="${p.kind}" data-id="${p.kind==='acc'?p.index:p.clothesIndex}" ${isOwned?'disabled':''}>
+                ${isOwned?'Comprado':'Comprar'}
+         </button>`;
+     store.appendChild(card);
+ });
+ store.querySelectorAll('.shop-buy-btn').forEach(btn=>{
+     btn.onclick=()=>{
+         const kind=btn.dataset.kind;
+         const id=+btn.dataset.id;
+         if(kind==='acc'){
+             if(ownedList().includes(id)) return;
+             const prod=accessoriesStore.find(x=>x.index===id);
+             if(window._spendPoints && window._spendPoints(prod.price)){
+                 const ow=ownedList();ow.push(id);
+                 localStorage.setItem('avatarAccessories',JSON.stringify(ow));
+                 renderShop();
+                 dispatchEvent(new Event('storage'));
+                 alert("Accesorio comprado");
+             }else alert("Puntos insuficientes");
+         } else if(kind==='clothes'){
+             if(clothesOwnedList().includes(id)) return;
+             const prod=clothesProducts.find(x=>x.clothesIndex===id);
+             if(window._spendPoints && window._spendPoints(prod.price)){
+                 const current=clothesOwnedList(); current.push(id);
+                 localStorage.setItem('avatarClothesOwned', JSON.stringify(current));
+                 renderShop();
+                 dispatchEvent(new Event('storage'));
+                 alert("Ropa comprada");
+             }else alert("Puntos insuficientes");
+         }
+     };
+ });
+}
+renderShop();
+addEventListener('storage',renderShop);
+})();
+
+// Minijuego
+(()=> {
+const canvas=document.getElementById('insta-ball-canvas'); if(!canvas) return;
+const ctx=canvas.getContext('2d');
+const startBtn=document.getElementById('start-insta-ball');
+const scoreSpan=document.getElementById('insta-ball-score');
+const bestDiv=document.getElementById('insta-ball-best');
+function resize(){const w=Math.min(400,canvas.parentElement.offsetWidth-10,innerWidth-40);
+const h=Math.round(w*5/3);canvas.width=w;canvas.height=Math.min(340,h);}addEventListener('resize',resize);resize();
+let ball,bar,gravity,isPlaying=false,score=0,best=+localStorage.getItem('instaball_best')||0,lastBounce=0,weird=false,wTimer=0,wLevel=1;
+function reset(){gravity=.32;weird=false;wTimer=0;wLevel=1;score=0;lastBounce=0;
+ ball={x:canvas.width/2,y:canvas.height/2,r:22,vx:(Math.random()-.5)*2,vy:-7,spin:0};
+ bar={w:canvas.width/3,h:16,x:canvas.width/2-canvas.width/6,y:canvas.height-40,vx:0,prevX:null};}
+reset(); if(best) bestDiv.textContent='Mejor puntaje: '+best;
+function drawBall(){ctx.save();ctx.globalAlpha=.18;ctx.beginPath();ctx.ellipse(ball.x,ball.y+ball.r,ball.r*.9,ball.r*.4,0,0,Math.PI*2);ctx.fillStyle='#888';ctx.fill();ctx.restore();
+ ctx.save();ctx.translate(ball.x,ball.y);ctx.rotate(ball.spin);ctx.beginPath();ctx.arc(0,0,ball.r,0,Math.PI*2);
+ ctx.fillStyle='#ffb6b9';ctx.shadowColor='#ff7eb9';ctx.shadowBlur=10;ctx.fill();ctx.shadowBlur=0;ctx.lineWidth=3;ctx.strokeStyle='#fff';ctx.stroke();
+ ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,ball.r*.7,0,Math.PI*2);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(-ball.r,0);ctx.lineTo(ball.r,0);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(0,-ball.r);ctx.lineTo(0,ball.r);ctx.stroke();ctx.restore();}
+function drawBar(){ctx.save();ctx.beginPath();ctx.rect(bar.x,bar.y,bar.w,bar.h);ctx.fillStyle='#a5d6a7';ctx.shadowColor='#388e3c';ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0;ctx.lineWidth=2;ctx.strokeStyle='#388e3c';ctx.stroke();ctx.restore();}
+function render(){ctx.clearRect(0,0,canvas.width,canvas.height);drawBall();drawBar();}
+function activateWeird(){weird=true;wLevel=Math.floor(score/10);wTimer=(score>=20)?9999:60+wLevel*20;}
+function loop(){
+ if(!isPlaying)return;
+ if(score>=20){weird=true;wLevel=Math.floor(score/10);wTimer=9999;}
+ if(weird){ball.vx+=(Math.random()-.5)*(0.7+wLevel*.2);ball.vy+=(Math.random()-.5)*(0.4+wLevel*.1);
+ gravity=.25+Math.random()*(0.08+wLevel*.03); if(--wTimer<=0 && score<20){weird=false;gravity=.32;}}
+ ball.vy+=gravity; ball.x+=ball.vx; ball.y+=ball.vy; ball.spin+=ball.vx*.03;
+ if(ball.x-ball.r<0){ball.x=ball.r;ball.vx*=-.7;} if(ball.x+ball.r>canvas.width){ball.x=canvas.width-ball.r;ball.vx*=-.7;}
+ if(ball.y+ball.r>bar.y && ball.y-ball.r<bar.y+bar.h && ball.x>bar.x && ball.x<bar.x+bar.w){
+   const hMax=canvas.height*.22;
+   ball.vy = -Math.sqrt(2*gravity*(bar.y-hMax));
+   ball.y=bar.y-ball.r;
+   const hit=(ball.x-(bar.x+bar.w/2))/(bar.w/2);
+   ball.vx=hit*3+bar.vx*.18;
+   if(!lastBounce||Date.now()-lastBounce>120){
+     score++;scoreSpan.textContent='Puntaje: '+score;window._addPoint&&window._addPoint();lastBounce=Date.now();
+     if(score%10===0&&score<20) activateWeird();
+   }
+ }
+ if(ball.y-ball.r>canvas.height){
+   isPlaying=false;
+   if(score>best){best=score;localStorage.setItem('instaball_best',best);} 
+   bestDiv.textContent='Mejor puntaje: '+best+'!';
+   startBtn.disabled=false;
+   showNotif('Juego finalizado. Puntaje: '+score,(score>0?'good':'info'));
+ }
+ render(); if(isPlaying) requestAnimationFrame(loop);
+}
+startBtn.onclick=()=>{resize();reset();scoreSpan.textContent='Puntaje: 0';bestDiv.textContent=best?'Mejor puntaje: '+best:'';startBtn.disabled=true;isPlaying=true;showNotif('Juego iniciado','good');loop();};
+let dragging=false,offset=0;
+function pointerX(e){const r=canvas.getBoundingClientRect();const cx=e.touches?e.touches[0].clientX:e.clientX;return (cx-r.left)* (canvas.width/r.width);} 
+function startDrag(e){const mx=pointerX(e); if(mx>=bar.x&&mx<=bar.x+bar.w){dragging=true;offset=mx-bar.x;}}
+function moveDrag(e){if(!dragging)return;const mx=pointerX(e);bar.x=Math.max(0,Math.min(canvas.width-bar.w,mx-offset));bar.vx=bar.prevX==null?0:(bar.x-bar.prevX);bar.prevX=bar.x;e.preventDefault();}
+function endDrag(){dragging=false;bar.vx=0;}
+canvas.addEventListener('pointerdown',startDrag);
+addEventListener('pointermove',moveDrag);
+addEventListener('pointerup',endDrag);
+canvas.addEventListener('touchstart',startDrag,{passive:true});
+addEventListener('touchmove',moveDrag,{passive:false});
+addEventListener('touchend',endDrag);
+render();
+})();
+
+// Calendario
+(()=> {
+const wrap=document.getElementById('calendar-widget');
+const list=document.getElementById('reminders-list');
+const dateInp=document.getElementById('reminder-date');
+const textInp=document.getElementById('reminder-text');
+const addBtn=document.getElementById('add-reminder');
+let reminders=JSON.parse(localStorage.getItem('voleikit_reminders')||'[]');
+function save(){localStorage.setItem('voleikit_reminders',JSON.stringify(reminders));}
+function renderCalendar(){
+ wrap.innerHTML="";
+ const now=new Date();
+ const year=now.getFullYear(), month=now.getMonth();
+ const first=new Date(year,month,1).getDay();
+ const days=new Date(year,month+1,0).getDate();
+ const header=document.createElement('div');header.className='cal-header';
+ header.textContent=now.toLocaleString('es-ES',{month:'long',year:'numeric'});wrap.appendChild(header);
+ const grid=document.createElement('div');grid.className='cal-grid';
+ ['L','M','X','J','V','S','D'].forEach(d=>{const el=document.createElement('div');el.className='cal-dow';el.textContent=d;grid.appendChild(el);});
+ const offset=(first===0)?6:first-1;
+ for(let i=0;i<offset;i++){const e=document.createElement('div');e.className='cal-empty';grid.appendChild(e);} 
+ for(let d=1;d<=days;d++){
+  const cell=document.createElement('div');cell.className='calendar-day cal-day-cell';cell.textContent=d;
+  const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;cell.dataset.date=ds;
+  if(reminders.some(r=>r.date===ds)){cell.classList.add('day-has-rem');}
+  cell.onclick=()=>{dateInp.value=ds;};
+  grid.appendChild(cell);
+ }
+ wrap.appendChild(grid);
+}
+function renderReminders(){
+ list.innerHTML="";
+ reminders.forEach((r,i)=>{
+  const div=document.createElement('div');
+  div.className='reminder-item';
+  div.innerHTML=`<b>${r.date}:</b> ${r.text} <button data-i="${i}" class="del-reminder">X</button>`;
+  list.appendChild(div);
+ });
+ list.querySelectorAll('.del-reminder').forEach(b=>b.onclick=()=>{
+  reminders.splice(+b.dataset.i,1);save();renderReminders();renderCalendar();
+ });
+}
+addBtn.onclick=()=>{
+ if(dateInp.value && textInp.value){
+  reminders.push({date:dateInp.value,text:textInp.value});
+  save();renderReminders();renderCalendar();textInp.value="";
+ }
+};
+renderReminders();renderCalendar();
+})();
+
+// QR
+(()=> {
+const btn=document.getElementById('generate-qr'), div=document.getElementById('qr-code-display');
+btn.onclick=()=>{
+ const code=Math.random().toString(36).slice(2,10);
+ const url=`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=VOLEYKIT-${code}`;
+ div.innerHTML=`<img src="${url}" alt="QR"><div class="qr-note">QR falso generado</div>`;
+};
+})();
+</script>
+</body>
+</html>
