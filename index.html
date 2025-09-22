@@ -188,7 +188,7 @@ if(y>last+8) nav.classList.add('hide-navbar'); else if(y<last-8||y<=0) nav.class
  document.querySelectorAll('.claim-gift').forEach(b=>b.onclick=()=>{
     const cost=+b.dataset.points; if(total>=cost){total-=cost;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total); showNotif('Reclamado: '+b.dataset.gift,'good');}
  });
- window._addPoint=()=>{total++;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total); showNotif('+1 punto','good');};
+ window._addPoint=()=>{total++;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total);};
  window._spendPoints=p=>{if(total>=p){total-=p;localStorage.setItem('voleikit_total_points',total);refresh();updateBtns(); if(window._onPointsChange) window._onPointsChange(total); return true;}return false;};
 })();
 
@@ -610,4 +610,5 @@ btn.onclick=()=>{
 </script>
 </body>
 </html>
+
 
